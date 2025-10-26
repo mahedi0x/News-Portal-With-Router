@@ -18,7 +18,7 @@ const Navbar = () => {
             console.log(error.message);
         })
     }
-
+    // photoURL
     return (
         <div className='flex justify-between items-center'>
             <div>
@@ -33,7 +33,11 @@ const Navbar = () => {
             <NavLink to="/carrier">Carrier</NavLink>
         </nav>
         <div className="login-btn flex items-center gap-4 ">
-        <Lottie animationData={userIcon} loop={true} className='w-[45px] border-2 rounded-4xl'/> 
+            {
+                user ? <img className='w-15 rounded-full' src={user?.photoURL}/> :
+               <Lottie animationData={userIcon} loop={true} className='w-[45px] border-2 rounded-4xl'/> 
+            }
+            
         
         {
             user ? 

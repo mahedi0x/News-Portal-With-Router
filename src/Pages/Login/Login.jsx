@@ -1,28 +1,35 @@
 
-import { use } from 'react';
-import { Link } from 'react-router';
+import { use, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../../provider/AuthProvider';
 
 const Login = () => {
+    const [error, setError] = useState("");
 
     const {signInUser} = use(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+//   const from = location.state?.from?.pathname || "/";
 
     const handleSignInUser = (e) =>{
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        // console.log(email, password);
 
         signInUser(email,password)
-        .then(resutl =>{
-            console.log(resutl.user);
+        .then(result =>{
+            console.log(result.user);
             form.reset();
+            navigate(`${location.state ? location.state : "/"}`);
         })
         .catch(error =>{
             const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorCode, errorMessage);   
+            // const errorMessage = error.message;
+            setError(errorCode);
+            // alert(errorCode, errorMessage);   
         })
     }
 
@@ -51,7 +58,7 @@ const Login = () => {
                     />
                 </div>
                 
-                <div class="mb-8">
+                <div class="mb-1">
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-700">
                         Password
                     </label>
@@ -64,6 +71,9 @@ const Login = () => {
                         required
                     />
                 </div>
+                <div className='p-1 mb-5'>
+                    <p className='underline cursor-pointer'>Forgot password ?</p>
+                </div>
                 
                 <button 
                     type="submit" 
@@ -72,6 +82,15 @@ const Login = () => {
                     Login
                 </button>
                 
+                <div class="text-center mt-6">
+                    <p class="text-sm text-red-600 font-semibold">
+                       {
+                        error && 
+                        <p>{error}</p>
+                       }
+                    </p>
+                </div>
+
                 <div class="text-center mt-6">
                     <p class="text-sm text-gray-600 font-bold">
                         Don't Have An Account ? <Link to="/auth/register" className='text-red-500 underline'>Register</Link> 

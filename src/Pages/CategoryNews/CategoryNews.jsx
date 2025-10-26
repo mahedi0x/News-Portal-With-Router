@@ -6,7 +6,7 @@ const CategoryNews = () => {
     const {id} = useParams();
     const allData = useLoaderData();
     const [categoriesNews, setCategoriesNews] = useState([])
-    console.log(categoriesNews);
+    // console.log(categoriesNews);
 
     useEffect(() =>{
         if(id == "0"){
