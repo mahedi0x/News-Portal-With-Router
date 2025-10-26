@@ -1,14 +1,29 @@
 import Lottie from 'lottie-react';
-import React from 'react';
-import { NavLink } from 'react-router';
-import user from "../../assets/icons/user.json"
+import React, { use } from 'react';
+import { Link, NavLink } from 'react-router';
+import userIcon from "../../assets/icons/user.json"
 import "./Navbar.css"
+import { AuthContext } from '../../provider/AuthProvider';
 
 const Navbar = () => {
+    const {user, SignOutUser} = use(AuthContext)
+    // console.log(user);
  
+    const handleSignOut = () =>{
+        SignOutUser()
+        .then(() =>{
+            alert("LogOut Successfully..")
+        })
+        .catch(error =>{
+            console.log(error.message);
+        })
+    }
 
     return (
         <div className='flex justify-between items-center'>
+            <div>
+                {user && user.email}
+            </div>
 
 
         <div className=""></div>
@@ -18,8 +33,15 @@ const Navbar = () => {
             <NavLink to="/carrier">Carrier</NavLink>
         </nav>
         <div className="login-btn flex items-center gap-4 ">
-        <Lottie animationData={user} loop={true} className='w-[45px] border-2 rounded-4xl'/> 
-        <button className='btn btn-primary px-10'>Login</button>
+        <Lottie animationData={userIcon} loop={true} className='w-[45px] border-2 rounded-4xl'/> 
+        
+        {
+            user ? 
+            <button onClick={handleSignOut} className='btn btn-primary px-10 cursor-pointer'>LogOut</button>
+            : 
+            <Link to="/auth/login" className='btn btn-primary px-10 cursor-pointer'>Login</Link>
+
+        }
         </div>
           
         </div>

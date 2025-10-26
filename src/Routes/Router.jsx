@@ -4,6 +4,10 @@ import Home from "../Pages/Home/Home";
 import CategoryNews from "../Pages/CategoryNews/CategoryNews";
 import About from "../Pages/About/About";
 import PageNotFound from "../Pages/PageNotFound/PageNotFound";
+import AuthLayout from "../Layouts/AuthLayout";
+import Login from "../Pages/Login/Login";
+import Register from "../Pages/Register/Register";
+import NewsDetails from "../Pages/NewsDetails/NewsDetails";
 
 const router = createBrowserRouter([
     {
@@ -21,17 +25,30 @@ const router = createBrowserRouter([
             {
                 path: "/category/:id",
                 Component: CategoryNews,
-                loader: ()=> fetch("/public/categoriesnews.json"),
+                loader: ()=> fetch("/categoriesnews.json"),
             }
         ]
     },
     {
         path: "/auth",
-        element: "This is Auth"
+        Component: AuthLayout,
+        children:[
+            {
+                path: "/auth/login",
+                Component: Login
+            },
+            {
+                path: "/auth/register",
+                Component: Register
+            }
+        ]
+
+
     },
     {
-        path: "/news",
-        element: "This is News"
+        path: "/news-details/:id",
+        Component: NewsDetails,
+        loader: ()=> fetch("/categoriesnews.json"),
     },
     {
         path: "/*",
